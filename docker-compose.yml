@@ -1,0 +1,25 @@
+services:
+  landing:
+    build: .
+    image: yaka-bridge-landing:latest
+    restart: unless-stopped
+    networks:
+      - coolify
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      - traefik.http.middlewares.yaka-bridge-redirect-https.redirectscheme.scheme=https
+      - traefik.http.middlewares.yaka-bridge-redirect-https.redirectscheme.permanent=true
+      - "traefik.http.routers.yaka-bridge-landing-http.rule=Host(`yaka-bridge.com`) || Host(`www.yaka-bridge.com`)"
+      - traefik.http.routers.yaka-bridge-landing-http.entrypoints=http
+      - traefik.http.routers.yaka-bridge-landing-http.middlewares=yaka-bridge-redirect-https
+      - "traefik.http.routers.yaka-bridge-landing.rule=Host(`yaka-bridge.com`) || Host(`www.yaka-bridge.com`)"
+      - traefik.http.routers.yaka-bridge-landing.entrypoints=https
+      - traefik.http.routers.yaka-bridge-landing.tls=true
+      - traefik.http.routers.yaka-bridge-landing.tls.certresolver=letsencrypt
+      - traefik.http.services.yaka-bridge-landing.loadbalancer.server.port=80
+
+networks:
+  coolify:
+    external: true
+
