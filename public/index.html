@@ -5,13 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Yaka-Bridge - L'ERP sur mesure qui travaille avec votre IA</title>
   <meta name="description" content="Yaka-Bridge réunit vos métiers dans une application simple et fait travailler ChatGPT, Codex ou un modèle local sur votre PC.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Yaka-Bridge">
+  <meta name="theme-color" content="#f7f4ed">
   <link rel="canonical" href="https://yaka-bridge.com/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Yaka-Bridge">
   <meta property="og:url" content="https://yaka-bridge.com/">
   <meta property="og:title" content="Yaka-Bridge - L'ERP sur mesure qui travaille avec votre IA">
   <meta property="og:description" content="Yaka-Bridge réunit vos métiers dans une application simple et fait travailler ChatGPT, Codex ou un modèle local sur votre PC.">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://yaka-bridge.com/og-yaka-bridge.png">
+  <meta property="og:image:secure_url" content="https://yaka-bridge.com/og-yaka-bridge.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Yaka-Bridge relie vos modules en ligne à ChatGPT via Codex ou à un modèle local.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Yaka-Bridge - L'ERP sur mesure qui travaille avec votre IA">
+  <meta name="twitter:description" content="Modules métier, ChatGPT via Codex et modèles locaux sur votre PC dans une application simple.">
+  <meta name="twitter:image" content="https://yaka-bridge.com/og-yaka-bridge.png">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://yaka-bridge.com/#organization",
+          "name": "Yaka-Bridge",
+          "url": "https://yaka-bridge.com/",
+          "logo": "https://yaka-bridge.com/logo-options/yaka-bridge-app-icon-eyes-512.png"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://yaka-bridge.com/#website",
+          "url": "https://yaka-bridge.com/",
+          "name": "Yaka-Bridge",
+          "publisher": { "@id": "https://yaka-bridge.com/#organization" },
+          "inLanguage": "fr-FR"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://yaka-bridge.com/#software",
+          "name": "Yaka-Bridge",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web, desktop",
+          "url": "https://yaka-bridge.com/",
+          "description": "ERP sur mesure qui relie des modules métier à ChatGPT via Codex ou à un modèle local sur le poste.",
+          "publisher": { "@id": "https://yaka-bridge.com/#organization" }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://yaka-bridge.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Qu'est-ce que Yaka-Bridge ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yaka-Bridge est un ERP sur mesure qui réunit des modules métier dans une application simple et les fait communiquer avec une IA sur le poste."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Yaka-Bridge fonctionne-t-il avec ChatGPT et Codex ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Oui. Les modules peuvent utiliser ChatGPT via Codex quand une tâche demande une capacité IA avancée."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Yaka-Bridge peut-il fonctionner avec un modèle local ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Gemma ou Mistral Small, sans abonnement IA obligatoire pour ces traitements."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Dans quels cas un modèle local suffit-il ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Un modèle local suffit souvent pour classer des documents, extraire des champs, résumer des mails, préparer des brouillons, reformuler ou contrôler la cohérence de données métier."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  </script>
   <style>
     :root {
       --bg:      oklch(98.2% 0.003 84.6);
@@ -330,6 +414,13 @@
     }
     .trust-card h3 { font-size: 20px; }
     .trust-card p { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .faq-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 46px; }
+    .faq-card {
+      padding: 22px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--surface); box-shadow: var(--shadow-xs);
+    }
+    .faq-card h3 { font-size: 20px; }
+    .faq-card p { margin: 8px 0 0; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
     .final-box {
       display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center;
       padding: clamp(26px, 4vw, 46px);
@@ -353,7 +444,7 @@
     @media (max-width: 680px) {
       .navlinks a:not(.nav-cta) { display: none; }
       h1 { font-size: clamp(40px, 11.5vw, 56px); }
-      .module-grid, .trust-grid { grid-template-columns: 1fr; }
+      .module-grid, .trust-grid, .faq-grid { grid-template-columns: 1fr; }
       .services { grid-template-columns: repeat(3, 96px); gap: 26px 18px; }
       .app-card { width: 96px; }
       .app-icon { width: 88px; height: 88px; }
@@ -701,6 +792,28 @@
           <article class="trust-card">
             <h3>Vous gardez la main</h3>
             <p>Un module se met en pause d'un clic. Un accès se retire d'un clic. Rien ne tourne sans que vous l'ayez décidé.</p>
+          </article>
+        </div>
+        <div class="section-head" id="faq">
+          <h2>Questions rapides.</h2>
+          <p>Les points à retenir pour les moteurs de recherche, les IA de réponse et les décideurs qui veulent comprendre vite.</p>
+        </div>
+        <div class="faq-grid" aria-labelledby="faq">
+          <article class="faq-card">
+            <h3>Qu'est-ce que Yaka-Bridge ?</h3>
+            <p>Un ERP sur mesure qui réunit vos modules métier dans une application simple et les fait communiquer avec une IA sur votre poste.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Est-ce compatible avec ChatGPT et Codex ?</h3>
+            <p>Oui. Les modules peuvent utiliser ChatGPT via Codex quand une tâche demande une capacité IA avancée.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Peut-on utiliser un modèle local ?</h3>
+            <p>Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Gemma ou Mistral Small.</p>
+          </article>
+          <article class="faq-card">
+            <h3>Quand le local suffit-il ?</h3>
+            <p>Classement, extraction, résumé, brouillons, reformulation et contrôles de cohérence sont souvent de bons cas d'usage locaux.</p>
           </article>
         </div>
         <div class="final-box">

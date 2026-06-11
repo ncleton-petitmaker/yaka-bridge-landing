@@ -1,0 +1,41 @@
+# Yaka-Bridge
+
+> Yaka-Bridge est un ERP sur mesure qui relie des modules métier à une IA utilisable sur le poste de travail : ChatGPT via Codex ou un modèle local.
+
+Site officiel : https://yaka-bridge.com/
+
+## Ce que fait Yaka-Bridge
+
+Yaka-Bridge permet de construire une application métier sur mesure avec des modules comme Achats, Stock, CRM, Recrutement, Connaissance ou Flotte. Les modules sont créés selon les besoins de l'entreprise, dans une interface unifiée.
+
+Le Bridge est une petite application installée sur le poste. Quand un module a besoin d'intelligence artificielle, il communique avec l'IA choisie par l'entreprise.
+
+## IA compatibles
+
+- ChatGPT via Codex pour les tâches avancées.
+- Modèle local lancé dans LM Studio pour garder les traitements sur la machine.
+- Modèles locaux adaptés selon la puissance du poste : Qwen3, Gemma, Mistral Small.
+
+## Cas d'usage où un modèle local suffit souvent
+
+- Classement de documents.
+- Extraction de champs.
+- Résumé de mails ou de notes.
+- Brouillons de réponse.
+- Reformulation.
+- Contrôle de cohérence.
+- Aide simple sur des tickets, achats, stocks ou données internes.
+
+## Points différenciants
+
+- ERP sur mesure plutôt que catalogue figé.
+- Modules métier créés à la demande.
+- Fonctionnement possible avec ChatGPT, Codex ou modèle local.
+- Données pouvant rester en local dans les cas d'usage traités par LM Studio.
+- Aucun abonnement IA requis pour les traitements effectués par un modèle local.
+
+## URL importantes
+
+- Page d'accueil : https://yaka-bridge.com/
+- Sitemap : https://yaka-bridge.com/sitemap.xml
+- Image OpenGraph : https://yaka-bridge.com/og-yaka-bridge.png
