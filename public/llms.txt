@@ -14,7 +14,7 @@ Le Bridge est une petite application installée sur le poste. Quand un module a 
 
 - ChatGPT via Codex pour les tâches avancées.
 - Modèle local lancé dans LM Studio pour garder les traitements sur la machine.
-- Modèles locaux adaptés selon la puissance du poste : Qwen3, Gemma, Mistral Small.
+- Modèles locaux adaptés selon la puissance du poste : Qwen3, Mistral Small, Kimi, DeepSeek, Gemma.
 
 ## Cas d'usage où un modèle local suffit souvent
 

@@ -80,7 +80,7 @@
               "name": "Yaka-Bridge peut-il fonctionner avec un modèle local ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Gemma ou Mistral Small, sans abonnement IA obligatoire pour ces traitements."
+                "text": "Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Mistral, Kimi, DeepSeek ou Gemma, sans abonnement IA obligatoire pour ces traitements."
               }
             },
             {
@@ -174,8 +174,45 @@
     .bridge-stage {
       width: min(760px, 92vw);
       margin: 40px auto 0;
+      position: relative;
     }
     .bridge-anim { display: block; width: 100%; height: auto; overflow: visible; }
+    .hero-models {
+      position: absolute;
+      left: calc(100% * 724 / 760);
+      top: calc(100% * 240 / 320);
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 22px);
+      gap: 3px;
+      padding: 5px;
+      border: 1px solid #e7e0d4;
+      border-radius: 16px;
+      background: rgba(255, 253, 248, .94);
+      box-shadow: 0 8px 24px rgba(39, 34, 29, .08), 0 1px 2px rgba(39, 34, 29, .06);
+      backdrop-filter: blur(6px);
+      transform: translate(-100%, -50%);
+    }
+    .hero-models img {
+      width: 16px;
+      height: 16px;
+      display: block;
+      object-fit: contain;
+    }
+    .hero-models span {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #eee8dc;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .hero-models span:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(39, 34, 29, .1);
+    }
     #bridge-scene {
       animation: bridge-bob 6.4s ease-in-out infinite;
     }
@@ -453,6 +490,16 @@
       .bridge-screen { padding: 46px 18px 34px; min-height: 0; }
       .compare-row { grid-template-columns: 1fr; gap: 6px; }
       .section { padding: 62px 0; }
+      .hero-models {
+        left: calc(100% * 744 / 760);
+        top: calc(100% * 220 / 320);
+        grid-template-columns: repeat(3, 15px);
+        gap: 2px;
+        padding: 3px;
+        border-radius: 12px;
+      }
+      .hero-models span { width: 15px; height: 15px; }
+      .hero-models img { width: 10px; height: 10px; }
     }
   </style>
 </head>
@@ -495,7 +542,7 @@
 
             <g id="bank-codex">
               <rect x="608" y="148" width="124" height="108" rx="18" fill="#FFFFFF" stroke="#E7E0D4" stroke-width="2"/>
-              <g transform="translate(634 166) scale(.03)">
+              <g transform="translate(638 156) scale(.027)">
                 <path d="M1 578.4C1 259.5 259.5 1 578.4 1h1249.1c319 0 577.5 258.5 577.5 577.4V2406H578.4C259.5 2406 1 2147.5 1 1828.6V578.4z" fill="#74AA9C"/>
                 <path id="chatgpt-loop" d="M1107.3 299.1c-197.999 0-373.9 127.3-435.2 315.3L650 743.5v427.9c0 21.4 11 40.4 29.4 51.4l344.5 198.515V833.3h.1v-27.9L1372.7 604c33.715-19.52 70.44-32.857 108.47-39.828L1447.6 450.3C1361 353.5 1237.1 298.5 1107.3 299.1zm0 117.5-.6.6c79.699 0 156.3 27.5 217.6 78.4-2.5 1.2-7.4 4.3-11 6.1L952.8 709.3c-18.4 10.4-29.4 30-29.4 51.4V1248l-155.1-89.4V755.8c-.1-187.099 151.601-338.9 339-339.2z" fill="#FFFFFF"/>
                 <use href="#chatgpt-loop" transform="rotate(60 1203 1203)"/>
@@ -552,6 +599,13 @@
             </text>
           </g>
         </svg>
+        <div class="hero-models" aria-label="Modèles locaux compatibles">
+          <span><img src="/model-logos/qwen.svg" alt="Qwen"></span>
+          <span><img src="/model-logos/mistral.svg" alt="Mistral"></span>
+          <span><img src="/model-logos/kimi.svg" alt="Kimi"></span>
+          <span><img src="/model-logos/deepseek.svg" alt="DeepSeek"></span>
+          <span><img src="/model-logos/gemma.svg" alt="Gemma"></span>
+        </div>
       </div>
     </section>
 
@@ -710,6 +764,7 @@
             <p>Sur une machine récente et correctement équipée, les familles les plus intéressantes aujourd'hui sont :</p>
             <div class="model-list">
               <span><b>Qwen3 8B / 14B</b> pour le bon équilibre vitesse, code et raisonnement courant.</span>
+              <span><b>Kimi K2</b> pour des usages agentiques et de code quand le poste ou le serveur peut suivre.</span>
               <span><b>Gemma 3 ou 4, 4B / 12B</b> pour des tâches rapides, multilingues et documentaires.</span>
               <span><b>Mistral Small 3.2 24B</b> quand la machine peut encaisser un modèle local plus lourd.</span>
             </div>
@@ -809,7 +864,7 @@
           </article>
           <article class="faq-card">
             <h3>Peut-on utiliser un modèle local ?</h3>
-            <p>Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Gemma ou Mistral Small.</p>
+            <p>Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Mistral, Kimi, DeepSeek ou Gemma.</p>
           </article>
           <article class="faq-card">
             <h3>Quand le local suffit-il ?</h3>
