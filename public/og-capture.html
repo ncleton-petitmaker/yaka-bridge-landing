@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Yaka-Bridge Open Graph Capture</title>
+  <style>
+    :root {
+      --bg: #faf8f3;
+      --surface: #ffffff;
+      --fg: #2a211b;
+      --muted: #8a8579;
+      --border: #e7e0d4;
+      --accent: #c96442;
+      --font-display: 'Source Serif Pro', 'Source Serif 4', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+      --font-body: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1200px;
+      height: 630px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+    }
+
+    .og-card {
+      position: relative;
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% -20%, rgba(201, 100, 66, .12), transparent 440px),
+        radial-gradient(circle at 18% 80%, rgba(42, 33, 27, .055), transparent 340px),
+        var(--bg);
+    }
+
+    .brand {
+      position: absolute;
+      top: 34px;
+      left: 52px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .tag {
+      position: absolute;
+      top: 35px;
+      right: 52px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 18px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      box-shadow: 0 12px 34px rgba(42, 33, 27, .08);
+      color: var(--fg);
+      font-size: 18px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 2;
+      width: 1120px;
+      margin: 100px auto 0;
+      color: #181411;
+      font-family: var(--font-display);
+      font-size: 66px;
+      font-weight: 650;
+      line-height: .96;
+      letter-spacing: 0;
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    h1 span {
+      display: block;
+    }
+
+    h1 em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .bridge-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: -12px;
+      z-index: 1;
+      width: 1040px;
+      transform: translateX(-50%);
+    }
+
+    .bridge-wrap svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .fallback {
+      display: grid;
+      height: 400px;
+      place-items: center;
+      color: var(--muted);
+      font-size: 20px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <main class="og-card" aria-label="Yaka-Bridge">
+    <div class="brand">
+      <img src="logo-options/yaka-bridge-app-icon-eyes-512.png" alt="">
+      <span>yaka-bridge</span>
+    </div>
+    <div class="tag">ERP sur mesure + IA</div>
+    <h1>
+      <span>Tout ce qu'un grand ERP sait faire.</span>
+      <span>En plus simple, <em>à votre image.</em></span>
+    </h1>
+    <div class="bridge-wrap" id="bridge-slot">
+      <div class="fallback">Chargement du bridge...</div>
+    </div>
+  </main>
+
+  <script>
+    (async () => {
+      const slot = document.getElementById("bridge-slot");
+      try {
+        const response = await fetch("index.html", { cache: "no-store" });
+        const html = await response.text();
+        const source = new DOMParser().parseFromString(html, "text/html");
+        const svg = source.querySelector("#bridge-svg");
+        if (!svg) throw new Error("Bridge SVG missing");
+        slot.replaceChildren(svg.cloneNode(true));
+        document.documentElement.dataset.ready = "true";
+      } catch (error) {
+        slot.querySelector(".fallback").textContent = "Yaka-Bridge";
+        document.documentElement.dataset.ready = "error";
+      }
+    })();
+  </script>
+</body>
+</html>
