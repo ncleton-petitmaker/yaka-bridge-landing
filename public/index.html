@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Yaka-Bridge - L'ERP sur mesure qui travaille avec votre ChatGPT</title>
-  <meta name="description" content="Yaka-Bridge réunit vos métiers dans une application simple et fait travailler l'abonnement ChatGPT que vous payez déjà, sans coûts d'IA supplémentaires.">
+  <title>Yaka-Bridge - L'ERP sur mesure qui travaille avec votre IA</title>
+  <meta name="description" content="Yaka-Bridge réunit vos métiers dans une application simple et fait travailler ChatGPT, Codex ou un modèle local sur votre PC.">
   <link rel="canonical" href="https://yaka-bridge.com/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yaka-bridge.com/">
-  <meta property="og:title" content="Yaka-Bridge - L'ERP sur mesure qui travaille avec votre ChatGPT">
-  <meta property="og:description" content="Yaka-Bridge réunit vos métiers dans une application simple et fait travailler l'abonnement ChatGPT que vous payez déjà, sans coûts d'IA supplémentaires.">
+  <meta property="og:title" content="Yaka-Bridge - L'ERP sur mesure qui travaille avec votre IA">
+  <meta property="og:description" content="Yaka-Bridge réunit vos métiers dans une application simple et fait travailler ChatGPT, Codex ou un modèle local sur votre PC.">
   <meta name="twitter:card" content="summary">
   <style>
     :root {
@@ -60,6 +60,13 @@
     .nav { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 20px; }
     .brand { display: inline-flex; align-items: center; gap: 11px; min-width: 0; }
     .brand svg { width: 32px; height: 32px; display: block; }
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      display: block;
+      border-radius: 7px;
+      object-fit: cover;
+    }
     .brand strong {
       font-family: var(--font-display); font-size: 18px; font-weight: 650;
       color: var(--strong); white-space: nowrap;
@@ -141,9 +148,17 @@
     }
     .titlebar {
       position: relative; display: flex; align-items: center; justify-content: center;
+      gap: 8px;
       min-height: 40px; border-bottom: 1px solid #e4ded3;
       background: linear-gradient(180deg, #efece5, #e9e5dc);
       color: #706c64; font-size: 13px; font-weight: 650;
+    }
+    .bridge-title-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      object-fit: cover;
+      box-shadow: 0 1px 2px rgba(39, 34, 29, .12);
     }
     .lights { position: absolute; inset-inline-start: 14px; display: flex; gap: 8px; }
     .lights i { width: 12px; height: 12px; border-radius: 50%; }
@@ -169,8 +184,10 @@
       width: 118px; height: 118px; border-radius: 8px; background: #ffffff;
       box-shadow: 0 18px 44px rgba(39, 34, 29, .10), 0 3px 10px rgba(39, 34, 29, .06);
       display: grid; place-items: center; border: 1px solid rgba(228, 222, 211, .72);
+      overflow: hidden;
     }
     .app-icon svg { width: 74px; height: 74px; display: block; }
+    .app-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .app-card strong { font-family: var(--font-body); font-size: 16px; font-weight: 650; color: #171716; line-height: 1.2; }
     .app-card.placeholder { opacity: .48; filter: grayscale(.12); }
     .app-card.placeholder .app-icon { box-shadow: 0 10px 28px rgba(39, 34, 29, .07), 0 2px 6px rgba(39, 34, 29, .04); }
@@ -224,6 +241,21 @@
     }
     .compare-row b { color: var(--strong); font-family: var(--font-display); font-size: 18px; line-height: 1.15; }
     .compare-row span { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+
+    /* modèle local */
+    .local-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .local-card {
+      padding: 22px; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      background: var(--surface); box-shadow: var(--shadow-xs);
+    }
+    .local-card h3 { font-size: 22px; }
+    .local-card p { margin: 10px 0 0; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+    .model-list { display: grid; gap: 10px; margin-top: 14px; }
+    .model-list span {
+      display: block; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+      background: var(--subtle); color: var(--fg); font-size: 13.5px; line-height: 1.45;
+    }
+    .model-list b { color: var(--strong); }
 
     /* pourquoi codex */
     .versus { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 940px; margin-inline: auto; }
@@ -315,7 +347,7 @@
     .foot a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; }
 
     @media (max-width: 920px) {
-      .economy, .custom, .final-box, .versus { grid-template-columns: 1fr; }
+      .economy, .custom, .final-box, .versus, .local-grid { grid-template-columns: 1fr; }
       .module-grid, .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 680px) {
@@ -337,16 +369,12 @@
   <header class="topbar">
     <div class="shell nav">
       <a class="brand" href="#top" aria-label="Yaka-Bridge">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo Yaka-Bridge">
-          <rect width="64" height="64" rx="14" fill="#f7f4ed"/>
-          <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#d8d3c8" stroke-width="3"/>
-          <path d="M20 40h24M20 32h24M20 24h24" stroke="#24221f" stroke-width="5" stroke-linecap="round"/>
-        </svg>
         <strong>yaka-bridge</strong>
       </a>
       <nav class="navlinks" aria-label="Navigation principale">
         <a href="#modules">Modules</a>
-        <a href="#economie">Votre ChatGPT</a>
+        <a href="#economie">Votre IA</a>
+        <a href="#local">Modèle local</a>
         <a href="#chatgpt">Pourquoi ChatGPT</a>
         <a href="#surmesure">Sur mesure</a>
         <a class="nav-cta" href="#contact">Demander une démo</a>
@@ -368,16 +396,28 @@
               <rect id="tile-b" x="97" y="159" width="36" height="36" rx="10" fill="#2A211B"/>
               <rect id="tile-c" x="47" y="209" width="36" height="36" rx="10" fill="#C96442"/>
               <rect id="tile-d" x="97" y="209" width="36" height="36" rx="10" fill="none" stroke="#C96442" stroke-width="2.5" stroke-dasharray="6 6"/>
-              <text x="90" y="286" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#8a8579">Vos modules</text>
+              <text x="90" y="282" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#8a8579">
+                <tspan x="90" dy="0">Vos modules</tspan>
+                <tspan x="90" dy="15">en ligne</tspan>
+              </text>
             </g>
 
             <g id="bank-codex">
               <rect x="608" y="148" width="124" height="108" rx="18" fill="#FFFFFF" stroke="#E7E0D4" stroke-width="2"/>
-              <path d="M656 186l-14 16 14 16" fill="none" stroke="#2A211B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M684 186l14 16-14 16" fill="none" stroke="#2A211B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M676 180l-12 44" fill="none" stroke="#C96442" stroke-width="7" stroke-linecap="round"/>
+              <g transform="translate(670 202)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M0-28c9-7 22-4 27 6 4 8 1 17-7 22L2 10" stroke="#2A211B" stroke-width="5.8"/>
+                <path d="M24-14c11 2 18 13 15 24-2 9-11 15-21 13l-20-4" stroke="#2A211B" stroke-width="5.8"/>
+                <path d="M25 14c2 11-6 21-17 23-9 2-18-4-21-13l-7-19" stroke="#2A211B" stroke-width="5.8"/>
+                <path d="M0 28c-9 7-22 4-27-6-4-8-1-17 7-22l18-10" stroke="#2A211B" stroke-width="5.8"/>
+                <path d="M-24 14c-11-2-18-13-15-24 2-9 11-15 21-13l20 4" stroke="#2A211B" stroke-width="5.8"/>
+                <path d="M-25-14c-2-11 6-21 17-23 9-2 18 4 21 13l7 19" stroke="#2A211B" stroke-width="5.8"/>
+                <circle cx="0" cy="0" r="5.2" fill="#C96442" stroke="none"/>
+              </g>
               <circle id="codex-dot" cx="716" cy="164" r="6" fill="#1e8f56"/>
-              <text x="670" y="286" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#8a8579">ChatGPT</text>
+              <text x="670" y="282" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#8a8579">
+                <tspan x="670" dy="0">ChatGPT, Codex</tspan>
+                <tspan x="670" dy="15">ou modèle local</tspan>
+              </text>
             </g>
 
             <g id="bridge-main">
@@ -415,6 +455,10 @@
               </g>
               <g id="packets"></g>
             </g>
+            <text x="380" y="282" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="650" fill="#2A211B">
+              <tspan x="380" dy="0">communiquent</tspan>
+              <tspan x="380" dy="15" fill="#8a8579">avec votre IA sur votre PC</tspan>
+            </text>
           </g>
         </svg>
       </div>
@@ -425,20 +469,15 @@
         <div class="bridge-window" role="img" aria-label="Exemple de fenêtre Bridge avec les modules Achats, Stock, Recrutement, CRM, Connaissance et Flotte">
           <div class="titlebar">
             <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+            <img class="bridge-title-icon" src="/logo-options/yaka-bridge-app-icon-eyes-512.png?v=20260611-option2" alt="">
             Bridge
           </div>
           <div class="bridge-screen">
-            <span class="codex-mini"><span class="dot" aria-hidden="true"></span>ChatGPT prêt</span>
+            <span class="codex-mini"><span class="dot" aria-hidden="true"></span>IA prête</span>
             <div class="services">
               <div class="app-card">
                 <span class="app-icon" aria-hidden="true">
-                  <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="1024" height="1024" rx="224" fill="#F6F1E8"/>
-                    <path d="M306 626V398c0-34 27-61 61-61h36c34 0 61 27 61 61v228c0 34-27 61-61 61h-36c-34 0-61-27-61-61Z" fill="#2A211B"/>
-                    <path d="M560 626V506c0-34 27-61 61-61h36c34 0 61 27 61 61v120c0 34-27 61-61 61h-36c-34 0-61-27-61-61Z" fill="#C96442"/>
-                    <path d="M300 754h424" stroke="#2A211B" stroke-width="52" stroke-linecap="round"/>
-                    <path d="m688 718 52 36-52 36" fill="none" stroke="#2A211B" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <img src="/logo-options/yaka-bridge-app-icon-eyes-512.png?v=20260611-option2" alt="">
                 </span>
                 <strong>Achats</strong>
               </div>
@@ -533,12 +572,12 @@
       <div class="shell">
         <div class="section-head">
           <h2>L'IA, au prix que vous payez déjà.</h2>
-          <p>La plupart des outils facturent l'intelligence artificielle à l'usage : chaque tâche ajoute une ligne sur la facture. Yaka-Bridge fait autrement.</p>
+          <p>La plupart des outils facturent l'intelligence artificielle à l'usage : chaque tâche ajoute une ligne sur la facture. Yaka-Bridge fait autrement, avec ChatGPT, Codex ou un modèle local.</p>
         </div>
         <div class="economy">
           <div class="quote-panel">
-            <p>Votre abonnement ChatGPT travaille déjà pour vous. Autant qu'il travaille pour votre entreprise.</p>
-            <small>Le Bridge est une petite application installée sur le poste. Quand un module a besoin d'intelligence, c'est votre abonnement ChatGPT existant qui s'en charge. Pas un compteur supplémentaire.</small>
+            <p>Votre IA travaille déjà pour vous. Autant qu'elle travaille pour votre entreprise.</p>
+            <small>Le Bridge est une petite application installée sur le poste. Quand un module a besoin d'intelligence, il dialogue avec l'IA choisie : ChatGPT, Codex, ou un modèle local lancé sur la machine.</small>
           </div>
           <div class="compare">
             <div class="compare-row">
@@ -547,7 +586,7 @@
             </div>
             <div class="compare-row">
               <b>Avec Bridge</b>
-              <span>Le travail est confié à l'abonnement ChatGPT que vos collaborateurs ont déjà. Pas de coût caché qui apparaît à la fin du mois.</span>
+              <span>Le travail est confié à l'IA déjà disponible sur le poste. Pas de coût caché qui apparaît à la fin du mois, et une option 100 % locale si le besoin le demande.</span>
             </div>
             <div class="compare-row">
               <b>Résultat</b>
@@ -558,11 +597,39 @@
       </div>
     </section>
 
+    <section class="section" id="local">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Et si vous voulez tout garder sur le PC ?</h2>
+          <p>Yaka-Bridge peut aussi communiquer avec un modèle local lancé dans LM Studio. Les données restent sur la machine, et aucun abonnement IA n'est nécessaire pour ces traitements.</p>
+        </div>
+        <div class="local-grid">
+          <article class="local-card">
+            <h3>LM Studio comme moteur local</h3>
+            <p>LM Studio lance un serveur sur le poste, puis Bridge lui parle comme à une API compatible OpenAI. Pour l'utilisateur, le module continue de fonctionner pareil : seul le moteur change.</p>
+          </article>
+          <article class="local-card">
+            <h3>Les modèles à surveiller</h3>
+            <p>Sur une machine récente et correctement équipée, les familles les plus intéressantes aujourd'hui sont :</p>
+            <div class="model-list">
+              <span><b>Qwen3 8B / 14B</b> pour le bon équilibre vitesse, code et raisonnement courant.</span>
+              <span><b>Gemma 3 ou 4, 4B / 12B</b> pour des tâches rapides, multilingues et documentaires.</span>
+              <span><b>Mistral Small 3.2 24B</b> quand la machine peut encaisser un modèle local plus lourd.</span>
+            </div>
+          </article>
+          <article class="local-card">
+            <h3>Quand c'est suffisant</h3>
+            <p>Classement de documents, extraction de champs, résumé de mails, brouillons de réponse, reformulation, contrôle de cohérence, aide sur des tickets, achats ou stocks : un bon modèle local suffit souvent. Pour les raisonnements longs, le code complexe ou les décisions sensibles, ChatGPT ou Codex restent le meilleur cran au-dessus.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="chatgpt">
       <div class="shell">
         <div class="section-head">
-          <h2>Pourquoi ChatGPT, et pas Claude ?</h2>
-          <p>Les deux grands fournisseurs d'IA ont fait des choix opposés sur une question simple : avez-vous le droit de brancher votre abonnement sur vos propres outils ?</p>
+          <h2>Pourquoi ChatGPT ou Codex ?</h2>
+          <p>Pour les tâches difficiles, l'abonnement OpenAI garde un avantage simple : il peut travailler avec vos outils au lieu de rester enfermé dans une interface séparée.</p>
         </div>
         <div class="versus">
           <article class="vs-card closed">
@@ -572,11 +639,11 @@
           </article>
           <article class="vs-card open">
             <span class="vs-tag">Porte ouverte</span>
-            <h3>ChatGPT, d'OpenAI</h3>
-            <p>OpenAI prend le chemin inverse : l'abonnement ChatGPT s'ouvre aux outils extérieurs, jusqu'à se rendre compatible avec des projets ouverts comme OpenClaw. Votre forfait devient une capacité que vous branchez où vous voulez.</p>
+            <h3>ChatGPT et Codex</h3>
+            <p>OpenAI prend le chemin inverse : l'IA peut être branchée à des outils extérieurs. Votre forfait devient une capacité que Bridge peut appeler quand un module a besoin d'un cran supérieur.</p>
           </article>
         </div>
-        <p class="versus-note">Yaka-Bridge est construit sur ce monde ouvert. Votre abonnement ChatGPT alimente votre ERP, vos modules se créent avec lui, et vous n'êtes prisonnier de personne.</p>
+        <p class="versus-note">Yaka-Bridge est construit pour garder le choix. ChatGPT ou Codex quand il faut de la puissance, modèle local quand la confidentialité, le coût ou l'autonomie passent d'abord.</p>
       </div>
     </section>
 
@@ -643,14 +710,10 @@
 
   <footer class="shell foot">
     <span class="brand">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo Yaka-Bridge" width="24" height="24">
-        <rect width="64" height="64" rx="14" fill="#f7f4ed"/>
-        <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#d8d3c8" stroke-width="3"/>
-        <path d="M20 40h24M20 32h24M20 24h24" stroke="#24221f" stroke-width="5" stroke-linecap="round"/>
-      </svg>
+      <img class="brand-logo" src="/logo-options/yaka-bridge-app-icon-eyes-512.png?v=20260611-option2" alt="" width="28" height="28">
       <strong>yaka-bridge</strong>
     </span>
-    <span>L'ERP sur mesure qui travaille avec votre abonnement <a href="https://chatgpt.com/pricing/">ChatGPT</a>. Compatible OpenDesign.</span>
+    <span>L'ERP sur mesure qui travaille avec <a href="https://chatgpt.com/pricing/">ChatGPT</a>, Codex ou un modèle local. Compatible OpenDesign.</span>
   </footer>
   <script>
     (function () {
