@@ -80,7 +80,7 @@
               "name": "Yaka-Bridge peut-il fonctionner avec un modèle local ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Mistral, Kimi, DeepSeek ou Gemma, sans abonnement IA obligatoire pour ces traitements."
+                "text": "Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Mistral, Kimi, DeepSeek, Gemma ou Llama, sans abonnement IA obligatoire pour ces traitements."
               }
             },
             {
@@ -172,51 +172,15 @@
     }
     h1 { max-width: 880px; margin-inline: auto; font-size: clamp(46px, 6vw, 82px); }
     .bridge-stage {
-      width: min(760px, 92vw);
+      width: min(900px, 94vw);
       margin: 40px auto 0;
       position: relative;
     }
     .bridge-anim { display: block; width: 100%; height: auto; overflow: visible; }
-    .hero-models {
-      position: absolute;
-      left: calc(100% * 724 / 760);
-      top: calc(100% * 240 / 320);
-      z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(3, 22px);
-      gap: 3px;
-      padding: 5px;
-      border: 1px solid #e7e0d4;
-      border-radius: 16px;
-      background: rgba(255, 253, 248, .94);
-      box-shadow: 0 8px 24px rgba(39, 34, 29, .08), 0 1px 2px rgba(39, 34, 29, .06);
-      backdrop-filter: blur(6px);
-      transform: translate(-100%, -50%);
-    }
-    .hero-models img {
-      width: 16px;
-      height: 16px;
-      display: block;
-      object-fit: contain;
-    }
-    .hero-models span {
-      width: 22px;
-      height: 22px;
-      display: grid;
-      place-items: center;
-      border: 1px solid #eee8dc;
-      border-radius: 50%;
-      background: #fff;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .hero-models span:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(39, 34, 29, .1);
-    }
     #bridge-scene {
       animation: bridge-bob 6.4s ease-in-out infinite;
     }
-    #bridge-main, #bank-modules, #bank-codex {
+    #bridge-main, #bank-modules, #bank-codex, #bank-local {
       transform-box: fill-box; transform-origin: center;
       will-change: transform;
     }
@@ -490,16 +454,6 @@
       .bridge-screen { padding: 46px 18px 34px; min-height: 0; }
       .compare-row { grid-template-columns: 1fr; gap: 6px; }
       .section { padding: 62px 0; }
-      .hero-models {
-        left: calc(100% * 744 / 760);
-        top: calc(100% * 220 / 320);
-        grid-template-columns: repeat(3, 15px);
-        gap: 2px;
-        padding: 3px;
-        border-radius: 12px;
-      }
-      .hero-models span { width: 15px; height: 15px; }
-      .hero-models img { width: 10px; height: 10px; }
     }
   </style>
 </head>
@@ -507,6 +461,7 @@
   <header class="topbar">
     <div class="shell nav">
       <a class="brand" href="#top" aria-label="Yaka-Bridge">
+        <img class="brand-logo" src="/logo-options/yaka-bridge-app-icon-eyes-512.png?v=20260611-option2b" alt="">
         <strong>yaka-bridge</strong>
       </a>
       <nav class="navlinks" aria-label="Navigation principale">
@@ -524,8 +479,8 @@
     <section class="shell hero" aria-labelledby="hero-title">
       <h1 id="hero-title">Tout ce qu'un grand ERP sait faire. En plus simple, à votre image.</h1>
       <div class="bridge-stage" id="bridge-stage" aria-hidden="true">
-        <svg class="bridge-anim" viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
-          <ellipse id="bridge-shadow" cx="380" cy="302" rx="250" ry="10" fill="#2A211B" opacity=".06"/>
+        <svg class="bridge-anim" viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg">
+          <ellipse id="bridge-shadow" cx="450" cy="318" rx="320" ry="10" fill="#2A211B" opacity=".06"/>
 
           <g id="bridge-scene">
             <g id="bank-modules">
@@ -534,8 +489,8 @@
               <rect id="tile-b" x="97" y="159" width="36" height="36" rx="10" fill="#2A211B"/>
               <rect id="tile-c" x="47" y="209" width="36" height="36" rx="10" fill="#C96442"/>
               <rect id="tile-d" x="97" y="209" width="36" height="36" rx="10" fill="none" stroke="#C96442" stroke-width="2.5" stroke-dasharray="6 6"/>
-              <text x="90" y="282" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#8a8579">
-                <tspan x="90" dy="0">Vos modules</tspan>
+              <text x="90" y="276" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#8a8579">
+                <tspan x="90" dy="0">Vos modules ERP</tspan>
                 <tspan x="90" dy="15">en ligne</tspan>
               </text>
             </g>
@@ -552,9 +507,29 @@
                 <use href="#chatgpt-loop" transform="rotate(300 1203 1203)"/>
               </g>
               <circle id="codex-dot" cx="716" cy="164" r="6" fill="#1e8f56"/>
-              <text x="670" y="282" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#8a8579">
-                <tspan x="670" dy="0">ChatGPT via Codex</tspan>
-                <tspan x="670" dy="15">ou modèle local</tspan>
+              <text x="670" y="282" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#8a8579">
+                <tspan x="670" dy="0">ChatGPT Codex</tspan>
+              </text>
+            </g>
+
+            <g id="bank-local">
+              <rect x="748" y="148" width="124" height="108" rx="18" fill="#FFFFFF" stroke="#E7E0D4" stroke-width="2"/>
+              <g>
+                <rect x="766" y="162" width="28" height="28" rx="8" fill="#FFFFFF" stroke="#EEE8DC"/>
+                <rect x="806" y="162" width="28" height="28" rx="8" fill="#FFFFFF" stroke="#EEE8DC"/>
+                <rect x="846" y="162" width="28" height="28" rx="8" fill="#FFFFFF" stroke="#EEE8DC"/>
+                <rect x="766" y="205" width="28" height="28" rx="8" fill="#FFFFFF" stroke="#EEE8DC"/>
+                <rect x="806" y="205" width="28" height="28" rx="8" fill="#FFFFFF" stroke="#EEE8DC"/>
+                <rect x="846" y="205" width="28" height="28" rx="8" fill="#FFFFFF" stroke="#EEE8DC"/>
+                <image href="/model-logos/qwen.svg?v=20260611-color3" x="770" y="166" width="20" height="20"/>
+                <image href="/model-logos/mistral.svg?v=20260611-color3" x="810" y="166" width="20" height="20"/>
+                <image href="/model-logos/kimi.svg?v=20260611-color3" x="850" y="166" width="20" height="20"/>
+                <image href="/model-logos/deepseek.svg?v=20260611-color3" x="770" y="209" width="20" height="20"/>
+                <image href="/model-logos/gemma.svg?v=20260611-color3" x="810" y="209" width="20" height="20"/>
+                <image href="/model-logos/llama.svg?v=20260611-color3" x="850" y="209" width="20" height="20"/>
+              </g>
+              <text x="810" y="282" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#8a8579">
+                <tspan x="810" dy="0">modèle local</tspan>
               </text>
             </g>
 
@@ -595,17 +570,12 @@
             </g>
             <text x="380" y="282" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="650" fill="#2A211B">
               <tspan x="380" dy="0">communiquent</tspan>
-              <tspan x="380" dy="15" fill="#8a8579">avec votre IA sur votre PC</tspan>
+            </text>
+            <text x="740" y="315" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11.5" font-weight="600" fill="#8a8579">
+              <tspan x="740" dy="0">avec votre IA sur votre PC</tspan>
             </text>
           </g>
         </svg>
-        <div class="hero-models" aria-label="Modèles locaux compatibles">
-          <span><img src="/model-logos/qwen.svg" alt="Qwen"></span>
-          <span><img src="/model-logos/mistral.svg" alt="Mistral"></span>
-          <span><img src="/model-logos/kimi.svg" alt="Kimi"></span>
-          <span><img src="/model-logos/deepseek.svg" alt="DeepSeek"></span>
-          <span><img src="/model-logos/gemma.svg" alt="Gemma"></span>
-        </div>
       </div>
     </section>
 
@@ -864,7 +834,7 @@
           </article>
           <article class="faq-card">
             <h3>Peut-on utiliser un modèle local ?</h3>
-            <p>Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Mistral, Kimi, DeepSeek ou Gemma.</p>
+            <p>Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Mistral, Kimi, DeepSeek, Gemma ou Llama.</p>
           </article>
           <article class="faq-card">
             <h3>Quand le local suffit-il ?</h3>
