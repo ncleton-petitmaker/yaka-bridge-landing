@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yaka-Bridge - L'ERP sur mesure qui travaille avec votre ChatGPT</title>
+  <meta name="description" content="Yaka-Bridge réunit vos métiers dans une application simple et fait travailler l'abonnement ChatGPT que vous payez déjà, sans coûts d'IA supplémentaires.">
+  <style>
+    :root {
+      --bg:      oklch(98.2% 0.003 84.6);
+      --surface: oklch(100% 0 0);
+      --fg:      oklch(21.3% 0.006 91.6);
+      --muted:   oklch(54.9% 0.010 84.6);
+      --border:  oklch(93.1% 0.010 87.5);
+      --accent:  oklch(61.7% 0.138 39.0);
+      --subtle:  oklch(96.1% 0.007 88.6);
+      --strong:  oklch(15.5% 0.004 84.6);
+      --accent-soft: oklch(93% 0.035 40);
+      --green: oklch(50.8% 0.132 148.5);
+      --font-display: 'Source Serif Pro', 'Source Serif 4', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+      --font-body: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --radius-sm: 6px;
+      --radius: 10px;
+      --radius-lg: 14px;
+      --shadow-xs: 0 1px 0 rgba(28, 27, 26, .04);
+      --shadow-window: 0 40px 90px rgba(39, 34, 29, .16), 0 8px 24px rgba(39, 34, 29, .08);
+      --max: 1140px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      margin: 0;
+      color: var(--fg);
+      background:
+        radial-gradient(circle at 50% -10%, rgba(201, 100, 66, .07), transparent 38rem),
+        var(--bg);
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      line-height: 1.58;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    .shell { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+
+    /* ---------- nav ---------- */
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      border-bottom: 1px solid color-mix(in oklch, var(--border) 80%, transparent);
+      background: color-mix(in oklch, var(--bg) 86%, white);
+      backdrop-filter: blur(18px);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand svg { width: 32px; height: 32px; display: block; }
+    .brand strong {
+      font-family: var(--font-display); font-size: 18px; font-weight: 650;
+      color: var(--strong); white-space: nowrap;
+    }
+    .navlinks { display: flex; align-items: center; gap: 24px; color: var(--muted); font-size: 13.5px; }
+    .navlinks a:hover { color: var(--fg); }
+    .nav-cta {
+      display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      background: var(--surface); color: var(--fg); box-shadow: var(--shadow-xs); font-weight: 600;
+    }
+
+    /* ---------- hero ---------- */
+    .hero { padding: 78px 0 30px; text-align: center; }
+    h1, h2, h3 {
+      margin: 0; color: var(--strong);
+      font-family: var(--font-display); font-weight: 650;
+      line-height: 1.04; letter-spacing: 0; text-wrap: balance;
+    }
+    h1 { max-width: 880px; margin-inline: auto; font-size: clamp(46px, 6vw, 82px); }
+    .bridge-stage {
+      width: min(760px, 92vw);
+      margin: 40px auto 0;
+    }
+    .bridge-anim { display: block; width: 100%; height: auto; overflow: visible; }
+    #bridge-scene {
+      animation: bridge-bob 6.4s ease-in-out infinite;
+    }
+    #bridge-main, #bank-modules, #bank-codex {
+      transform-box: fill-box; transform-origin: center;
+      will-change: transform;
+    }
+    #bridge-shadow {
+      transform-box: fill-box; transform-origin: center;
+      animation: bridge-shadow 6.4s ease-in-out infinite;
+    }
+    #codex-dot {
+      transform-box: fill-box; transform-origin: center;
+      animation: codex-pulse 2.4s ease-in-out infinite;
+    }
+    #robot-eyes, #eye-blink, #pupil-l, #pupil-r {
+      transform-box: fill-box; transform-origin: center;
+      will-change: transform;
+    }
+    @keyframes bridge-bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes bridge-shadow {
+      0%, 100% { transform: scaleX(1); opacity: .06; }
+      50% { transform: scaleX(.94); opacity: .045; }
+    }
+    @keyframes codex-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #bridge-scene, #bridge-shadow, #codex-dot { animation: none; }
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 0 18px;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      background: var(--surface); color: var(--fg);
+      box-shadow: var(--shadow-xs); font-weight: 650; white-space: nowrap;
+    }
+    .btn.primary { border-color: var(--accent); background: var(--accent); color: white; }
+    .btn:hover { border-color: color-mix(in oklch, var(--border) 65%, var(--fg)); }
+    .btn.primary:hover { border-color: var(--accent); filter: brightness(.96); }
+
+    /* ---------- vraie fenêtre Bridge ---------- */
+    .capture-wrap { padding: 44px 0 86px; }
+    .bridge-window {
+      width: min(880px, 100%); margin-inline: auto;
+      border: 1px solid color-mix(in oklch, var(--border) 70%, var(--fg) 6%);
+      border-radius: 12px; overflow: hidden;
+      background: #f7f5f0;
+      box-shadow: var(--shadow-window);
+    }
+    .titlebar {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      min-height: 40px; border-bottom: 1px solid #e4ded3;
+      background: linear-gradient(180deg, #efece5, #e9e5dc);
+      color: #706c64; font-size: 13px; font-weight: 650;
+    }
+    .lights { position: absolute; inset-inline-start: 14px; display: flex; gap: 8px; }
+    .lights i { width: 12px; height: 12px; border-radius: 50%; }
+    .lights i:nth-child(1) { background: #ff5f57; }
+    .lights i:nth-child(2) { background: #febc2e; }
+    .lights i:nth-child(3) { background: #28c840; }
+    .bridge-screen { position: relative; padding: 52px 46px 44px; min-height: 470px; display: grid; align-content: center; }
+    .codex-mini {
+      position: absolute; top: 14px; inset-inline-end: 16px;
+      display: inline-flex; align-items: center; gap: 7px; min-height: 28px;
+      border: 1px solid #e4ded3; border-radius: 999px;
+      background: rgba(255, 253, 248, .82); padding: 4px 10px;
+      color: #1e8f56; font-size: 12px; font-weight: 750;
+      box-shadow: 0 1px 2px rgba(39, 34, 29, .04);
+    }
+    .codex-mini .dot { width: 8px; height: 8px; border-radius: 99px; background: currentColor; }
+    .services {
+      display: grid; grid-template-columns: repeat(3, 128px);
+      gap: 38px 42px; justify-content: center; align-content: center;
+    }
+    .app-card { width: 128px; display: grid; justify-items: center; gap: 12px; text-align: center; }
+    .app-icon {
+      width: 118px; height: 118px; border-radius: 8px; background: #ffffff;
+      box-shadow: 0 18px 44px rgba(39, 34, 29, .10), 0 3px 10px rgba(39, 34, 29, .06);
+      display: grid; place-items: center; border: 1px solid rgba(228, 222, 211, .72);
+    }
+    .app-icon svg { width: 74px; height: 74px; display: block; }
+    .app-card strong { font-family: var(--font-body); font-size: 16px; font-weight: 650; color: #171716; line-height: 1.2; }
+    .app-card.placeholder { opacity: .48; filter: grayscale(.12); }
+    .app-card.placeholder .app-icon { box-shadow: 0 10px 28px rgba(39, 34, 29, .07), 0 2px 6px rgba(39, 34, 29, .04); }
+    .capture-caption {
+      max-width: 560px; margin: 18px auto 0; text-align: center;
+      color: var(--muted); font-size: 13px; line-height: 1.5;
+    }
+
+    /* ---------- sections ---------- */
+    .section { padding: 84px 0; border-top: 1px solid var(--border); }
+    .section-head { max-width: 780px; margin: 0 auto 42px; text-align: center; }
+    h2 { font-size: clamp(34px, 4.4vw, 54px); }
+    .section-head p { margin: 16px auto 0; max-width: 620px; color: var(--muted); font-size: 17px; text-wrap: pretty; }
+
+    /* modules */
+    .module-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .module-card {
+      display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 16px; align-items: center;
+      padding: 18px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--surface); box-shadow: var(--shadow-xs);
+    }
+    .module-card .m-icon {
+      width: 58px; height: 58px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--subtle);
+      display: grid; place-items: center;
+    }
+    .module-card .m-icon svg { width: 40px; height: 40px; display: block; }
+    .module-card h3 { font-size: 19px; }
+    .module-card p { margin: 5px 0 0; color: var(--muted); font-size: 13.5px; line-height: 1.45; }
+    .module-note { margin: 20px auto 0; max-width: 620px; text-align: center; color: var(--muted); font-size: 13px; }
+
+    /* économie */
+    .economy { display: grid; grid-template-columns: .95fr 1.05fr; gap: 18px; align-items: stretch; }
+    .quote-panel {
+      display: grid; align-content: center;
+      padding: clamp(26px, 4vw, 44px);
+      border: 1px solid color-mix(in oklch, var(--accent) 22%, var(--border));
+      border-radius: var(--radius-lg);
+      background: color-mix(in oklch, var(--surface) 78%, var(--accent-soft));
+    }
+    .quote-panel p {
+      margin: 0; color: var(--strong);
+      font-family: var(--font-display); font-size: clamp(28px, 3.4vw, 44px);
+      line-height: 1.08; text-wrap: balance;
+    }
+    .quote-panel small { display: block; margin-top: 20px; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+    .compare { display: grid; gap: 12px; }
+    .compare-row {
+      display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 16px; align-items: center;
+      padding: 18px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+    }
+    .compare-row b { color: var(--strong); font-family: var(--font-display); font-size: 18px; line-height: 1.15; }
+    .compare-row span { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+
+    /* pourquoi codex */
+    .versus { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 940px; margin-inline: auto; }
+    .vs-card {
+      display: grid; gap: 12px; align-content: start;
+      padding: clamp(22px, 3vw, 30px);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      background: var(--surface); box-shadow: var(--shadow-xs);
+    }
+    .vs-card h3 { font-size: 23px; }
+    .vs-card p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+    .vs-tag {
+      display: inline-flex; align-items: center; gap: 7px; width: fit-content;
+      min-height: 26px; padding: 2px 11px;
+      border: 1px solid var(--border); border-radius: 999px;
+      background: var(--subtle); color: var(--muted);
+      font-size: 12px; font-weight: 700;
+    }
+    .vs-tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: .55; }
+    .vs-card.closed { background: color-mix(in oklch, var(--surface) 60%, var(--subtle)); }
+    .vs-card.closed h3, .vs-card.closed p { opacity: .82; }
+    .vs-card.open { border-color: color-mix(in oklch, var(--green) 30%, var(--border)); }
+    .vs-card.open .vs-tag {
+      border-color: color-mix(in oklch, var(--green) 26%, var(--border));
+      background: color-mix(in oklch, var(--green) 9%, var(--surface));
+      color: var(--green);
+    }
+    .versus-note {
+      max-width: 640px; margin: 26px auto 0; text-align: center;
+      color: var(--fg); font-size: 16px; line-height: 1.55; text-wrap: pretty;
+    }
+
+    /* sur mesure */
+    .custom { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
+    .steps { display: grid; gap: 12px; counter-reset: step; }
+    .step {
+      display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; align-items: start;
+      padding: 18px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--surface); counter-increment: step;
+    }
+    .step::before {
+      content: counter(step);
+      display: grid; place-items: center; width: 36px; height: 36px;
+      border: 1px solid var(--border); border-radius: 50%; background: var(--subtle);
+      color: var(--strong); font-family: var(--font-display); font-size: 16px; font-weight: 650;
+    }
+    .step strong { display: block; color: var(--strong); font-size: 15.5px; margin-bottom: 4px; }
+    .step span { color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+    .design-card {
+      display: grid; align-content: center; gap: 14px;
+      padding: clamp(24px, 3.5vw, 38px);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      background: var(--surface); box-shadow: var(--shadow-xs);
+    }
+    .design-card h3 { font-size: 26px; line-height: 1.1; }
+    .design-card p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+    .od-badge {
+      display: inline-flex; align-items: center; gap: 10px; width: fit-content;
+      border: 1px solid var(--border); border-radius: 999px;
+      background: var(--subtle); padding: 8px 14px;
+      color: var(--fg); font-size: 13px; font-weight: 650;
+    }
+    .od-badge svg { width: 20px; height: 20px; display: block; }
+    .swatch-row { display: flex; gap: 6px; }
+    .swatch-row i { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--border); }
+
+    /* confiance + CTA final */
+    .trust-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 46px; }
+    .trust-card {
+      padding: 22px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--surface); box-shadow: var(--shadow-xs);
+    }
+    .trust-card h3 { font-size: 20px; }
+    .trust-card p { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .final-box {
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center;
+      padding: clamp(26px, 4vw, 46px);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      background: var(--surface); box-shadow: var(--shadow-xs);
+    }
+    .final-box h2 { font-size: clamp(30px, 3.8vw, 46px); }
+    .final-box p { max-width: 640px; margin: 14px 0 0; color: var(--muted); font-size: 16px; }
+
+    .foot {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 14px; padding: 28px 0 40px; color: var(--muted); font-size: 12.5px;
+    }
+    .foot .brand strong { font-size: 15px; }
+    .foot a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; }
+
+    @media (max-width: 920px) {
+      .economy, .custom, .final-box, .versus { grid-template-columns: 1fr; }
+      .module-grid, .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 680px) {
+      .navlinks a:not(.nav-cta) { display: none; }
+      h1 { font-size: clamp(40px, 11.5vw, 56px); }
+      .module-grid, .trust-grid { grid-template-columns: 1fr; }
+      .services { grid-template-columns: repeat(3, 96px); gap: 26px 18px; }
+      .app-card { width: 96px; }
+      .app-icon { width: 88px; height: 88px; }
+      .app-icon svg { width: 56px; height: 56px; }
+      .app-card strong { font-size: 13px; }
+      .bridge-screen { padding: 46px 18px 34px; min-height: 0; }
+      .compare-row { grid-template-columns: 1fr; gap: 6px; }
+      .section { padding: 62px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell nav">
+      <a class="brand" href="#top" aria-label="Yaka-Bridge">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo Yaka-Bridge">
+          <rect width="64" height="64" rx="14" fill="#f7f4ed"/>
+          <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#d8d3c8" stroke-width="3"/>
+          <path d="M20 40h24M20 32h24M20 24h24" stroke="#24221f" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <strong>yaka-bridge</strong>
+      </a>
+      <nav class="navlinks" aria-label="Navigation principale">
+        <a href="#modules">Modules</a>
+        <a href="#economie">Votre ChatGPT</a>
+        <a href="#chatgpt">Pourquoi ChatGPT</a>
+        <a href="#surmesure">Sur mesure</a>
+        <a class="nav-cta" href="#contact">Demander une démo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="shell hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">Tout ce qu'un grand ERP sait faire. En plus simple, à votre image.</h1>
+      <div class="bridge-stage" id="bridge-stage" aria-hidden="true">
+        <svg class="bridge-anim" viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+          <ellipse id="bridge-shadow" cx="380" cy="302" rx="250" ry="10" fill="#2A211B" opacity=".06"/>
+
+          <g id="bridge-scene">
+            <g id="bank-modules">
+              <rect x="28" y="148" width="124" height="108" rx="18" fill="#FFFFFF" stroke="#E7E0D4" stroke-width="2"/>
+              <rect id="tile-a" x="47" y="159" width="36" height="36" rx="10" fill="#F6F1E8"/>
+              <rect id="tile-b" x="97" y="159" width="36" height="36" rx="10" fill="#2A211B"/>
+              <rect id="tile-c" x="47" y="209" width="36" height="36" rx="10" fill="#C96442"/>
+              <rect id="tile-d" x="97" y="209" width="36" height="36" rx="10" fill="none" stroke="#C96442" stroke-width="2.5" stroke-dasharray="6 6"/>
+              <text x="90" y="286" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#8a8579">Vos modules</text>
+            </g>
+
+            <g id="bank-codex">
+              <rect x="608" y="148" width="124" height="108" rx="18" fill="#FFFFFF" stroke="#E7E0D4" stroke-width="2"/>
+              <path d="M656 186l-14 16 14 16" fill="none" stroke="#2A211B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M684 186l14 16-14 16" fill="none" stroke="#2A211B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M676 180l-12 44" fill="none" stroke="#C96442" stroke-width="7" stroke-linecap="round"/>
+              <circle id="codex-dot" cx="716" cy="164" r="6" fill="#1e8f56"/>
+              <text x="670" y="286" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600" fill="#8a8579">ChatGPT</text>
+            </g>
+
+            <g id="bridge-main">
+              <path d="M152 192 Q205 98 252 92" fill="none" stroke="#2A211B" stroke-width="4" stroke-linecap="round"/>
+              <path d="M252 92 Q380 170 508 92" fill="none" stroke="#2A211B" stroke-width="4" stroke-linecap="round"/>
+              <path d="M508 92 Q555 98 608 192" fill="none" stroke="#2A211B" stroke-width="4" stroke-linecap="round"/>
+              <g stroke="#2A211B" stroke-width="2.5" opacity=".3">
+                <path d="M284 109v82"/>
+                <path d="M316 121v69"/>
+                <path d="M348 129v61"/>
+                <path d="M380 131v59"/>
+                <path d="M412 129v61"/>
+                <path d="M444 121v69"/>
+                <path d="M476 109v82"/>
+              </g>
+              <rect x="246" y="86" width="12" height="118" rx="6" fill="#2A211B"/>
+              <rect x="502" y="86" width="12" height="118" rx="6" fill="#2A211B"/>
+              <circle cx="252" cy="82" r="7" fill="#C96442"/>
+              <circle cx="508" cy="82" r="7" fill="#C96442"/>
+              <path d="M152 196 Q380 184 608 196" fill="none" stroke="#2A211B" stroke-width="7" stroke-linecap="round"/>
+              <g id="robot-head">
+                <rect x="374" y="108" width="12" height="84" rx="6" fill="#2A211B"/>
+                <g id="robot-eyes">
+                  <g id="eye-blink">
+                    <g transform="rotate(-8 353 102)">
+                      <rect x="328" y="86" width="50" height="32" rx="16" fill="#FFFFFF" stroke="#2A211B" stroke-width="4"/>
+                      <circle id="pupil-l" cx="362" cy="102" r="7.5" fill="#2A211B"/>
+                    </g>
+                    <g transform="rotate(8 407 102)">
+                      <rect x="382" y="86" width="50" height="32" rx="16" fill="#FFFFFF" stroke="#2A211B" stroke-width="4"/>
+                      <circle id="pupil-r" cx="398" cy="102" r="7.5" fill="#2A211B"/>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <g id="packets"></g>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="shell capture-wrap" aria-label="L'application Bridge">
+      <figure style="margin:0">
+        <div class="bridge-window" role="img" aria-label="Exemple de fenêtre Bridge avec les modules Achats, Stock, Recrutement, CRM, Connaissance et Flotte">
+          <div class="titlebar">
+            <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+            Bridge
+          </div>
+          <div class="bridge-screen">
+            <span class="codex-mini"><span class="dot" aria-hidden="true"></span>ChatGPT prêt</span>
+            <div class="services">
+              <div class="app-card">
+                <span class="app-icon" aria-hidden="true">
+                  <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1024" height="1024" rx="224" fill="#F6F1E8"/>
+                    <path d="M306 626V398c0-34 27-61 61-61h36c34 0 61 27 61 61v228c0 34-27 61-61 61h-36c-34 0-61-27-61-61Z" fill="#2A211B"/>
+                    <path d="M560 626V506c0-34 27-61 61-61h36c34 0 61 27 61 61v120c0 34-27 61-61 61h-36c-34 0-61-27-61-61Z" fill="#C96442"/>
+                    <path d="M300 754h424" stroke="#2A211B" stroke-width="52" stroke-linecap="round"/>
+                    <path d="m688 718 52 36-52 36" fill="none" stroke="#2A211B" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <strong>Achats</strong>
+              </div>
+              <div class="app-card placeholder">
+                <span class="app-icon" aria-hidden="true">
+                  <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M48 16 76 32v32L48 80 20 64V32L48 16Z" fill="#F6F1E8"/><path d="M48 16 76 32 48 48 20 32 48 16Z" fill="#C96442"/><path d="M48 48v32L20 64V32l28 16Z" fill="#2A211B"/><path d="M48 48v32l28-16V32L48 48Z" fill="#2A211B" opacity=".72"/></svg>
+                </span>
+                <strong>Stock</strong>
+              </div>
+              <div class="app-card placeholder">
+                <span class="app-icon" aria-hidden="true">
+                  <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><circle cx="48" cy="31" r="14" fill="#2A211B"/><path d="M23 76c4-17 14-26 25-26s21 9 25 26" fill="#C96442"/><circle cx="25" cy="44" r="9" fill="#2A211B" opacity=".72"/><circle cx="72" cy="44" r="9" fill="#C96442" opacity=".72"/></svg>
+                </span>
+                <strong>Recrutement</strong>
+              </div>
+              <div class="app-card placeholder">
+                <span class="app-icon" aria-hidden="true">
+                  <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M22 36h40c9 0 16 7 16 16v4H38c-9 0-16-7-16-16v-4Z" fill="#C96442"/><path d="M54 36h20v18c0 8-6 14-14 14H40V50c0-8 6-14 14-14Z" fill="#2A211B"/><path d="M29 58 55 32" stroke="#F6F1E8" stroke-width="9" stroke-linecap="round" opacity=".9"/></svg>
+                </span>
+                <strong>CRM</strong>
+              </div>
+              <div class="app-card placeholder">
+                <span class="app-icon" aria-hidden="true">
+                  <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M26 22h28c9 0 16 7 16 16v36H34c-7 0-12-5-12-12V26c0-2 2-4 4-4Z" fill="#2A211B"/><path d="M34 30h26c6 0 10 4 10 10v34H40c-6 0-10-4-10-10V34c0-2 2-4 4-4Z" fill="#C96442"/><path d="M40 43h18M40 55h22" stroke="#F6F1E8" stroke-width="5" stroke-linecap="round"/></svg>
+                </span>
+                <strong>Connaissance</strong>
+              </div>
+              <div class="app-card placeholder">
+                <span class="app-icon" aria-hidden="true">
+                  <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M18 56 35 36h29l14 20v12H18V56Z" fill="#C96442"/><path d="M36 36h18l8 20H26l10-20Z" fill="#2A211B"/><circle cx="34" cy="70" r="8" fill="#2A211B"/><circle cx="66" cy="70" r="8" fill="#2A211B"/><path d="M22 56h54" stroke="#F6F1E8" stroke-width="5" stroke-linecap="round" opacity=".72"/></svg>
+                </span>
+                <strong>Flotte</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="capture-caption">
+          Un exemple de configuration. Cette entreprise a choisi Achats, Stock, Recrutement, CRM, Connaissance et Flotte. La vôtre composera sa propre fenêtre, avec les modules de son métier.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="section" id="modules">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Pas de catalogue. Des modules qui naissent de vos besoins.</h2>
+          <p>Ceux-ci sont des exemples, pas une liste à cocher. Chaque module se crée à la demande, dans un environnement unifié, sur votre propre serveur. Vos équipes n'apprennent pas un logiciel : elles retrouvent leur travail.</p>
+        </div>
+        <div class="module-grid">
+          <article class="module-card">
+            <span class="m-icon" aria-hidden="true">
+              <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><rect width="1024" height="1024" rx="224" fill="#F6F1E8"/><path d="M306 626V398c0-34 27-61 61-61h36c34 0 61 27 61 61v228c0 34-27 61-61 61h-36c-34 0-61-27-61-61Z" fill="#2A211B"/><path d="M560 626V506c0-34 27-61 61-61h36c34 0 61 27 61 61v120c0 34-27 61-61 61h-36c-34 0-61-27-61-61Z" fill="#C96442"/><path d="M300 754h424" stroke="#2A211B" stroke-width="52" stroke-linecap="round"/><path d="m688 718 52 36-52 36" fill="none" stroke="#2A211B" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div><h3>Achats</h3><p>Comparez les devis, suivez vos fournisseurs, décidez plus vite avec une vraie note de synthèse.</p></div>
+          </article>
+          <article class="module-card">
+            <span class="m-icon" aria-hidden="true">
+              <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M48 16 76 32v32L48 80 20 64V32L48 16Z" fill="#F6F1E8"/><path d="M48 16 76 32 48 48 20 32 48 16Z" fill="#C96442"/><path d="M48 48v32L20 64V32l28 16Z" fill="#2A211B"/><path d="M48 48v32l28-16V32L48 48Z" fill="#2A211B" opacity=".72"/></svg>
+            </span>
+            <div><h3>Stock</h3><p>Inventaires, seuils d'alerte et réassort, sans tableur partagé qui se périme.</p></div>
+          </article>
+          <article class="module-card">
+            <span class="m-icon" aria-hidden="true">
+              <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M22 36h40c9 0 16 7 16 16v4H38c-9 0-16-7-16-16v-4Z" fill="#C96442"/><path d="M54 36h20v18c0 8-6 14-14 14H40V50c0-8 6-14 14-14Z" fill="#2A211B"/><path d="M29 58 55 32" stroke="#F6F1E8" stroke-width="9" stroke-linecap="round" opacity=".9"/></svg>
+            </span>
+            <div><h3>CRM</h3><p>Clients, relances et campagnes au même endroit, avec l'historique sous les yeux.</p></div>
+          </article>
+          <article class="module-card">
+            <span class="m-icon" aria-hidden="true">
+              <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><circle cx="48" cy="31" r="14" fill="#2A211B"/><path d="M23 76c4-17 14-26 25-26s21 9 25 26" fill="#C96442"/><circle cx="25" cy="44" r="9" fill="#2A211B" opacity=".72"/><circle cx="72" cy="44" r="9" fill="#C96442" opacity=".72"/></svg>
+            </span>
+            <div><h3>Recrutement</h3><p>Candidatures, entretiens et décisions suivis simplement, sans rien perdre en route.</p></div>
+          </article>
+          <article class="module-card">
+            <span class="m-icon" aria-hidden="true">
+              <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M26 22h28c9 0 16 7 16 16v36H34c-7 0-12-5-12-12V26c0-2 2-4 4-4Z" fill="#2A211B"/><path d="M34 30h26c6 0 10 4 10 10v34H40c-6 0-10-4-10-10V34c0-2 2-4 4-4Z" fill="#C96442"/><path d="M40 43h18M40 55h22" stroke="#F6F1E8" stroke-width="5" stroke-linecap="round"/></svg>
+            </span>
+            <div><h3>Connaissance</h3><p>Le savoir-faire de l'entreprise rangé, retrouvable et transmis aux nouveaux.</p></div>
+          </article>
+          <article class="module-card">
+            <span class="m-icon" aria-hidden="true">
+              <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M18 56 35 36h29l14 20v12H18V56Z" fill="#C96442"/><path d="M36 36h18l8 20H26l10-20Z" fill="#2A211B"/><circle cx="34" cy="70" r="8" fill="#2A211B"/><circle cx="66" cy="70" r="8" fill="#2A211B"/><path d="M22 56h54" stroke="#F6F1E8" stroke-width="5" stroke-linecap="round" opacity=".72"/></svg>
+            </span>
+            <div><h3>Flotte</h3><p>Véhicules, matériel et entretiens sous contrôle, sans classeur ni post-it.</p></div>
+          </article>
+        </div>
+        <p class="module-note">Suivi de chantiers, qualité, SAV, planning d'atelier, n'importe quoi d'autre : si votre métier en a besoin, demandez-le, et ça devient un module dans votre application.</p>
+      </div>
+    </section>
+
+    <section class="section" id="economie">
+      <div class="shell">
+        <div class="section-head">
+          <h2>L'IA, au prix que vous payez déjà.</h2>
+          <p>La plupart des outils facturent l'intelligence artificielle à l'usage : chaque tâche ajoute une ligne sur la facture. Yaka-Bridge fait autrement.</p>
+        </div>
+        <div class="economy">
+          <div class="quote-panel">
+            <p>Votre abonnement ChatGPT travaille déjà pour vous. Autant qu'il travaille pour votre entreprise.</p>
+            <small>Le Bridge est une petite application installée sur le poste. Quand un module a besoin d'intelligence, c'est votre abonnement ChatGPT existant qui s'en charge. Pas un compteur supplémentaire.</small>
+          </div>
+          <div class="compare">
+            <div class="compare-row">
+              <b>D'habitude</b>
+              <span>Chaque automatisation IA passe par des crédits facturés à l'usage. Plus vos équipes s'en servent, plus la facture grimpe, et personne n'ose vraiment l'utiliser.</span>
+            </div>
+            <div class="compare-row">
+              <b>Avec Bridge</b>
+              <span>Le travail est confié à l'abonnement ChatGPT que vos collaborateurs ont déjà. Pas de coût caché qui apparaît à la fin du mois.</span>
+            </div>
+            <div class="compare-row">
+              <b>Résultat</b>
+              <span>Vos équipes essaient, recommencent, automatisent, sans se demander combien coûte chaque clic. L'IA devient un réflexe, pas un budget.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="chatgpt">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Pourquoi ChatGPT, et pas Claude ?</h2>
+          <p>Les deux grands fournisseurs d'IA ont fait des choix opposés sur une question simple : avez-vous le droit de brancher votre abonnement sur vos propres outils ?</p>
+        </div>
+        <div class="versus">
+          <article class="vs-card closed">
+            <span class="vs-tag">Porte fermée</span>
+            <h3>Claude, d'Anthropic</h3>
+            <p>Anthropic a interdit l'usage de son abonnement par des agents externes. Votre forfait Claude ne travaille que dans les outils d'Anthropic. Impossible de le mettre au service de votre ERP.</p>
+          </article>
+          <article class="vs-card open">
+            <span class="vs-tag">Porte ouverte</span>
+            <h3>ChatGPT, d'OpenAI</h3>
+            <p>OpenAI prend le chemin inverse : l'abonnement ChatGPT s'ouvre aux outils extérieurs, jusqu'à se rendre compatible avec des projets ouverts comme OpenClaw. Votre forfait devient une capacité que vous branchez où vous voulez.</p>
+          </article>
+        </div>
+        <p class="versus-note">Yaka-Bridge est construit sur ce monde ouvert. Votre abonnement ChatGPT alimente votre ERP, vos modules se créent avec lui, et vous n'êtes prisonnier de personne.</p>
+      </div>
+    </section>
+
+    <section class="section" id="surmesure">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Un nouveau besoin ? Décrivez-le. Le module se construit chez vous.</h2>
+          <p>C'est la vraie différence avec les grands ERP : chez eux, le sur-mesure coûte un projet. Ici, c'est le fonctionnement normal, et il se passe sur votre propre serveur.</p>
+        </div>
+        <div class="custom">
+          <div class="steps">
+            <div class="step"><div><strong>Vous décrivez le besoin, avec vos mots</strong><span>"On veut suivre les retours clients atelier" suffit. Pas de cahier des charges de quarante pages.</span></div></div>
+            <div class="step"><div><strong>L'agent vous explique la marche à suivre</strong><span>Pas besoin d'une équipe de développeurs : l'agent intégré détaille les étapes. Il suffit d'importer le projet dans ChatGPT, et le module se construit sous vos yeux.</span></div></div>
+            <div class="step"><div><strong>Tout se passe dans un environnement unifié, chez vous</strong><span>Les modules se créent sur votre propre serveur, avec les mêmes règles, les mêmes données, la même charte. Votre savoir-faire ne quitte pas la maison.</span></div></div>
+            <div class="step"><div><strong>Il rejoint votre application, dans votre identité</strong><span>Votre charte graphique est figée au départ, chaque module la respecte. Une nouvelle icône apparaît dans Bridge, rien à réapprendre.</span></div></div>
+          </div>
+          <div class="design-card">
+            <span class="od-badge">
+              <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="1024" height="1024" rx="224" fill="#F6F1E8"/><path d="M322 516h380" fill="none" stroke="#2A211B" stroke-width="54" stroke-linecap="round"/><path d="M500 360v312" fill="none" stroke="#2A211B" stroke-width="42" stroke-linecap="round"/><rect x="238" y="376" width="172" height="172" rx="54" fill="#2A211B"/><rect x="614" y="476" width="172" height="172" rx="54" fill="#C96442"/><circle cx="500" cy="516" r="58" fill="#F6F1E8" stroke="#2A211B" stroke-width="42"/></svg>
+              Compatible OpenDesign
+            </span>
+            <h3>Votre image de marque, gravée dans l'outil.</h3>
+            <p>Avec OpenDesign, vous explorez plusieurs directions visuelles, vous choisissez celle qui vous ressemble, et elle devient la règle. Plus aucun module ne pourra avoir l'air "ajouté après coup".</p>
+            <div class="swatch-row" aria-hidden="true">
+              <i style="background: var(--bg)"></i>
+              <i style="background: var(--surface)"></i>
+              <i style="background: var(--border)"></i>
+              <i style="background: var(--muted)"></i>
+              <i style="background: var(--strong)"></i>
+              <i style="background: var(--accent)"></i>
+            </div>
+            <p>Six couleurs, deux typographies, des règles claires : c'est ce contrat visuel que chaque module hérite, aujourd'hui et dans cinq ans.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="shell">
+        <div class="trust-grid">
+          <article class="trust-card">
+            <h3>Installé chez vous</h3>
+            <p>Le Bridge tourne sur vos postes. Le travail sensible reste près de vos outils et de vos fichiers, pas dans une boîte noire.</p>
+          </article>
+          <article class="trust-card">
+            <h3>Chaque action laisse une trace</h3>
+            <p>Qui a fait quoi, quand, sur quel dossier : tout est enregistré. L'IA travaille sous les mêmes règles que vos équipes.</p>
+          </article>
+          <article class="trust-card">
+            <h3>Vous gardez la main</h3>
+            <p>Un module se met en pause d'un clic. Un accès se retire d'un clic. Rien ne tourne sans que vous l'ayez décidé.</p>
+          </article>
+        </div>
+        <div class="final-box">
+          <div>
+            <h2>Commencez petit. Un module, une équipe, un mois.</h2>
+            <p>Le bon premier pas n'est pas une refonte : c'est le workflow qui vous agace le plus, transformé en module pilote. On mesure, puis on étend.</p>
+          </div>
+          <a class="btn primary" href="#modules">Choisir le module pilote</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell foot">
+    <span class="brand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo Yaka-Bridge" width="24" height="24">
+        <rect width="64" height="64" rx="14" fill="#f7f4ed"/>
+        <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#d8d3c8" stroke-width="3"/>
+        <path d="M20 40h24M20 32h24M20 24h24" stroke="#24221f" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <strong>yaka-bridge</strong>
+    </span>
+    <span>L'ERP sur mesure qui travaille avec votre abonnement <a href="https://chatgpt.com/pricing/">ChatGPT</a>. Compatible OpenDesign.</span>
+  </footer>
+  <script>
+    (function () {
+      const stage = document.getElementById("bridge-stage");
+      if (!stage) return;
+      const SVG_NS = "http://www.w3.org/2000/svg";
+      const bridgeMain = document.getElementById("bridge-main");
+      const bankL = document.getElementById("bank-modules");
+      const bankR = document.getElementById("bank-codex");
+      const packetsGroup = document.getElementById("packets");
+      const robotEyes = document.getElementById("robot-eyes");
+      const eyeBlink = document.getElementById("eye-blink");
+      const pupilL = document.getElementById("pupil-l");
+      const pupilR = document.getElementById("pupil-r");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Tablier : M152 196 Q380 184 608 196 (les paquets roulent juste au-dessus)
+      const X0 = 152, X1 = 608;
+      function deckY(t) {
+        const u = 1 - t;
+        return u * u * 196 + 2 * t * u * 184 + t * t * 196;
+      }
+
+      const packets = [];
+      function addPacket(dir, t, speed, color) {
+        const el = document.createElementNS(SVG_NS, "circle");
+        el.setAttribute("r", "5.5");
+        el.setAttribute("fill", color);
+        packetsGroup.appendChild(el);
+        packets.push({ el, dir, t, speed, color });
+      }
+      // Terre cuite : les modules envoient le travail vers ChatGPT.
+      addPacket(1, 0.05, 0.0026, "#C96442");
+      addPacket(1, 0.42, 0.0023, "#C96442");
+      addPacket(1, 0.78, 0.0028, "#C96442");
+      // Vert : ChatGPT renvoie les réponses qui entretiennent les modules.
+      addPacket(-1, 0.88, 0.0024, "#1e8f56");
+      addPacket(-1, 0.30, 0.0021, "#1e8f56");
+
+      function placePacket(p) {
+        p.el.setAttribute("cx", (X0 + p.t * (X1 - X0)).toFixed(1));
+        p.el.setAttribute("cy", (deckY(p.t) - 9).toFixed(1));
+      }
+      packets.forEach(placePacket);
+
+      function ping(x, y, color) {
+        const el = document.createElementNS(SVG_NS, "circle");
+        el.setAttribute("cx", x);
+        el.setAttribute("cy", y);
+        el.setAttribute("r", "6");
+        el.setAttribute("fill", "none");
+        el.setAttribute("stroke", color);
+        el.setAttribute("stroke-width", "2.5");
+        packetsGroup.appendChild(el);
+        el.animate(
+          [{ opacity: .7, transform: "scale(1)" }, { opacity: 0, transform: "scale(3.4)" }],
+          { duration: 620, easing: "ease-out" }
+        ).onfinish = () => el.remove();
+        el.style.transformBox = "fill-box";
+        el.style.transformOrigin = "center";
+      }
+
+      let tx = 0, ty = 0, cx = 0, cy = 0;
+      let lastPointer = 0;
+
+      window.addEventListener("pointermove", (e) => {
+        const r = stage.getBoundingClientRect();
+        const nx = (e.clientX - (r.left + r.width / 2)) / Math.max(r.width, 1);
+        const ny = (e.clientY - (r.top + r.height / 2)) / Math.max(r.height, 1);
+        tx = Math.max(-1, Math.min(1, nx));
+        ty = Math.max(-1, Math.min(1, ny));
+        lastPointer = performance.now();
+      }, { passive: true });
+
+      // Sans souris (tactile), le pont ondule doucement tout seul
+      setInterval(() => {
+        if (performance.now() - lastPointer > 4000) {
+          tx = (Math.random() * 2 - 1) * 0.5;
+          ty = (Math.random() * 2 - 1) * 0.3;
+        }
+      }, 2600);
+
+      function tick() {
+        cx += (tx - cx) * 0.07;
+        cy += (ty - cy) * 0.07;
+
+        // Le pont bouge plus que les rives : effet de profondeur
+        bridgeMain.style.transform =
+          "translate(" + (cx * 11).toFixed(2) + "px," + (cy * 7).toFixed(2) + "px) rotate(" + (cx * 1.4).toFixed(2) + "deg)";
+        bankL.style.transform = "translate(" + (cx * 4).toFixed(2) + "px," + (cy * 2.5).toFixed(2) + "px)";
+        bankR.style.transform = "translate(" + (cx * 4).toFixed(2) + "px," + (cy * 2.5).toFixed(2) + "px)";
+
+        // Les yeux du robot suivent la souris, la tête s'incline un peu
+        const pupil = "translate(" + (cx * 7).toFixed(2) + "px," + (cy * 5).toFixed(2) + "px)";
+        pupilL.style.transform = pupil;
+        pupilR.style.transform = pupil;
+        robotEyes.style.transform = "rotate(" + (cx * 5).toFixed(2) + "deg)";
+
+        // La souris accélère légèrement le trafic sur le tablier
+        const boost = 1 + Math.abs(cx) * 0.6;
+        packets.forEach((p) => {
+          p.t += p.speed * p.dir * boost;
+          if (p.t >= 1) {
+            ping(X1, deckY(1) - 9, p.color);
+            p.t = 0;
+          } else if (p.t <= 0) {
+            ping(X0, deckY(0) - 9, p.color);
+            p.t = 1;
+          }
+          placePacket(p);
+        });
+
+        requestAnimationFrame(tick);
+      }
+
+      if (!reduced) {
+        requestAnimationFrame(tick);
+        // Clignement périodique, façon WALL-E
+        setInterval(() => {
+          eyeBlink.animate(
+            [{ transform: "scaleY(1)" }, { transform: "scaleY(.08)", offset: .5 }, { transform: "scaleY(1)" }],
+            { duration: 230, easing: "ease-in-out" }
+          );
+        }, 3800);
+      }
+    })();
+  </script>
+</body>
+</html>

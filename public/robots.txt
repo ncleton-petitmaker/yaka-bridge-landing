@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yaka-bridge.com/sitemap.xml
+
