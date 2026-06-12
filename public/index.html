@@ -83,7 +83,7 @@
               "name": "Yaka-Bridge peut-il fonctionner avec un modèle local ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Mistral, Kimi, DeepSeek, Gemma ou Llama, sans abonnement IA obligatoire pour ces traitements."
+                "text": "Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen3.5, Qwen3.6, Gemma 4, Ministral 3, Phi-4 Reasoning Vision, Llama 4 Scout ou un modèle serveur comme Kimi K2.6 et DeepSeek V4, sans abonnement IA obligatoire pour ces traitements."
               }
             },
             {
@@ -831,13 +831,16 @@
             <p>LM Studio lance un serveur sur le poste, puis Bridge lui parle comme à une API compatible OpenAI. Pour l'utilisateur, le module continue de fonctionner pareil : seul le moteur change.</p>
           </article>
           <article class="local-card">
-            <h3>Les modèles à surveiller</h3>
-            <p>Sur une machine récente et correctement équipée, les familles les plus intéressantes aujourd'hui sont :</p>
+            <h3>Repère au 12 juin 2026</h3>
+            <p>Le bon choix dépend surtout de la VRAM : laptop, station de travail ou serveur local n'ont pas le même terrain de jeu. Les familles les plus sérieuses à surveiller sont :</p>
             <div class="model-list">
-              <span><b>Qwen3 8B / 14B</b> pour le bon équilibre vitesse, code et raisonnement courant.</span>
-              <span><b>Kimi K2</b> pour des usages agentiques et de code quand le poste ou le serveur peut suivre.</span>
-              <span><b>Gemma 3 ou 4, 4B / 12B</b> pour des tâches rapides, multilingues et documentaires.</span>
-              <span><b>Mistral Small 3.2 24B</b> quand la machine peut encaisser un modèle local plus lourd.</span>
+              <span><b>Qwen3.5 9B / Qwen3.6 35B-A3B</b> pour le meilleur compromis local : multilingue, raisonnement, vision, outils et long contexte.</span>
+              <span><b>Qwen3-Coder-Next</b> pour les agents de code locaux, le travail sur dépôt et les workflows de développement.</span>
+              <span><b>Gemma 4 E2B / E4B</b> pour les tâches rapides sur laptop, avec 26B A4B / 31B à réserver aux machines plus solides.</span>
+              <span><b>Ministral 3 8B / 14B</b> pour un modèle compact, multimodal, francophone et vraiment déployable en local.</span>
+              <span><b>Phi-4 Reasoning Vision 15B</b> pour du multimodal compact quand il faut raisonner sans passer sur un très gros modèle.</span>
+              <span><b>Mistral Small 4</b> pour un serveur local plus musclé : instruction, raisonnement, code et agents dans un modèle unifié.</span>
+              <span><b>Llama 4 Scout, Kimi K2.6, DeepSeek V4</b> à surveiller côté workstation ou serveur local, pas comme choix par défaut sur un PC standard.</span>
             </div>
           </article>
           <article class="local-card">
@@ -935,7 +938,7 @@
           </article>
           <article class="faq-card">
             <h3>Peut-on utiliser un modèle local ?</h3>
-            <p>Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen, Mistral, Kimi, DeepSeek, Gemma ou Llama.</p>
+            <p>Oui. Bridge peut communiquer avec un modèle local lancé dans LM Studio, par exemple Qwen3.5, Qwen3.6, Gemma 4, Ministral 3, Phi-4 Reasoning Vision, Llama 4 Scout ou un modèle serveur comme Kimi K2.6 et DeepSeek V4.</p>
           </article>
           <article class="faq-card">
             <h3>Quand le local suffit-il ?</h3>
