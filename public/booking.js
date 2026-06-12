@@ -208,7 +208,7 @@
     return `
       <div class="yb-booking-topline">
         <h3 id="yb-booking-title">Choisir un créneau</h3>
-        <p>Les disponibilités sont celles du calendrier Yaka-Bridge. Après validation, le rendez-vous est créé avec un lien Google Meet.</p>
+        <p>Après validation, le rendez-vous est créé avec un lien Google Meet.</p>
         ${state.calendarConnected ? "" : `<div class="yb-booking-alert">Mode prévisualisation : le calendrier Google n'est pas encore connecté sur cet environnement.</div>`}
         ${state.error ? `<div class="yb-booking-alert" data-tone="danger">${escapeHtml(state.error)}</div>` : ""}
       </div>
