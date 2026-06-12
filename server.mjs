@@ -42,6 +42,14 @@ const WEEKLY_HOURS = {
 };
 
 const rateLimits = new Map();
+const AVAILABILITY_PATHS = new Set([
+  "/api/booking/availability",
+  "/.netlify/functions/booking-availability",
+]);
+const CONFIRM_PATHS = new Set([
+  "/api/booking/confirm",
+  "/.netlify/functions/booking-confirm",
+]);
 
 function json(res, statusCode, body) {
   res.writeHead(statusCode, {
@@ -49,6 +57,14 @@ function json(res, statusCode, body) {
     "cache-control": "no-store",
   });
   res.end(JSON.stringify(body));
+}
+
+function redirect(res, location) {
+  res.writeHead(303, {
+    location,
+    "cache-control": "no-store",
+  });
+  res.end();
 }
 
 function getClientIp(req) {
@@ -504,12 +520,21 @@ async function serveStatic(req, res, url) {
 createServer(async (req, res) => {
   const url = new URL(req.url || "/", SITE_URL);
   try {
-    if (req.method === "GET" && url.pathname === "/api/booking/availability") {
+    if (req.method === "GET" && AVAILABILITY_PATHS.has(url.pathname)) {
       await handleAvailability(req, res, url);
       return;
     }
-    if (req.method === "POST" && url.pathname === "/api/booking/confirm") {
+    if (req.method === "POST" && CONFIRM_PATHS.has(url.pathname)) {
       await handleConfirm(req, res);
+      return;
+    }
+    if (req.method === "GET" && CONFIRM_PATHS.has(url.pathname)) {
+      const accept = String(req.headers.accept || "");
+      if (accept.includes("text/html")) {
+        redirect(res, "/#rdv");
+      } else {
+        json(res, 405, { error: "Use POST to confirm a booking" });
+      }
       return;
     }
     if (url.pathname.startsWith("/api/")) {
