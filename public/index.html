@@ -188,6 +188,10 @@
       line-height: 1.04; letter-spacing: 0; text-wrap: balance;
     }
     h1 { max-width: 940px; margin-inline: auto; font-size: clamp(44px, 5.6vw, 78px); }
+    h1.hero-title-offer {
+      max-width: 1100px;
+      font-size: clamp(38px, 4.2vw, 54px);
+    }
     h1 .line { display: block; overflow: hidden; padding-block: .045em; }
     h1 .line > span { display: inline-block; will-change: transform; }
     h1 em { font-style: italic; color: var(--accent); }
@@ -222,6 +226,7 @@
     @media (prefers-reduced-motion: no-preference) {
       h1 .line > span { transform: translateY(112%); animation: word-rise 1s cubic-bezier(.22, 1, .36, 1) both; }
       h1 .line:nth-child(2) > span { animation-delay: .14s; }
+      h1 .line:nth-child(3) > span { animation-delay: .28s; }
       @keyframes word-rise { to { transform: translateY(0); } }
 
       #halo { animation: halo-spin 90s linear infinite; }
@@ -513,6 +518,7 @@
       }
       .hero-copy { width: min(100% - 28px, var(--max)); }
       h1 { font-size: clamp(40px, 11.5vw, 56px); }
+      h1.hero-title-offer { font-size: clamp(34px, 9.2vw, 42px); }
       .hero-scene {
         width: min(100vw, 520px);
         margin-top: clamp(-54px, -12vw, -38px);
@@ -555,9 +561,10 @@
   <main id="top">
     <section class="hero" aria-labelledby="hero-title">
       <div class="shell hero-copy">
-        <h1 id="hero-title">
-          <span class="line"><span>Tout ce qu'un grand ERP sait faire.</span></span>
-          <span class="line"><span>En plus simple, <em>à votre image.</em></span></span>
+        <h1 id="hero-title" class="hero-title-offer">
+          <span class="line"><span>Un ERP sur mesure connecté</span></span>
+          <span class="line"><span>à votre abonnement ChatGPT,</span></span>
+          <span class="line"><span>sans abonnement IA supplémentaire.</span></span>
         </h1>
       </div>
       <div class="hero-scene" id="bridge-stage" aria-hidden="true">
