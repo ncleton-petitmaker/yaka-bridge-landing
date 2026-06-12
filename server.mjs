@@ -12,7 +12,7 @@ const BOOKING_DURATION_MINUTES = Number(process.env.BOOKING_DURATION_MINUTES || 
 const BOOKING_TIMEZONE = "Europe/Paris";
 const GOOGLE_CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID || "primary";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
-const BOOKING_EMAIL_FROM = process.env.BOOKING_EMAIL_FROM || "Yaka-Bridge <noreply@yaka-bridge.com>";
+const BOOKING_EMAIL_FROM = process.env.BOOKING_EMAIL_FROM || "Nicolas Cléton <nicolas.cleton@yaka-performance.com>";
 const BOOKING_NOTIFICATION_EMAIL = process.env.BOOKING_NOTIFICATION_EMAIL || "nicolas.cleton@yaka-performance.com";
 const BOOKING_PREVIEW_SLOTS =
   process.env.BOOKING_PREVIEW_SLOTS === "true" ||

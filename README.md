@@ -26,7 +26,7 @@ Variables d'environnement recommandées :
 - `GOOGLE_REFRESH_TOKEN`
 - `GOOGLE_CALENDAR_ID` : calendrier cible, par défaut `primary`.
 - `RESEND_API_KEY`
-- `BOOKING_EMAIL_FROM` : expéditeur Resend, par défaut `Yaka-Bridge <noreply@yaka-bridge.com>`.
+- `BOOKING_EMAIL_FROM` : expéditeur Resend, par défaut `Nicolas Cléton <nicolas.cleton@yaka-performance.com>`.
 - `BOOKING_NOTIFICATION_EMAIL` : email qui reçoit les demandes, par défaut `nicolas.cleton@yaka-performance.com`.
 - `BOOKING_DURATION_MINUTES` : durée d'un créneau, par défaut `30`.
 - `BOOKING_PREVIEW_SLOTS` : `true` pour afficher des créneaux sans Google Calendar. Par défaut, actif hors production et inactif en production.

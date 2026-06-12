@@ -10,7 +10,7 @@ services:
       GOOGLE_REFRESH_TOKEN: ${GOOGLE_REFRESH_TOKEN:-}
       GOOGLE_CALENDAR_ID: ${GOOGLE_CALENDAR_ID:-primary}
       RESEND_API_KEY: ${RESEND_API_KEY:-}
-      BOOKING_EMAIL_FROM: ${BOOKING_EMAIL_FROM:-Yaka-Bridge <noreply@yaka-bridge.com>}
+      BOOKING_EMAIL_FROM: ${BOOKING_EMAIL_FROM:-Nicolas Cléton <nicolas.cleton@yaka-performance.com>}
       BOOKING_NOTIFICATION_EMAIL: ${BOOKING_NOTIFICATION_EMAIL:-nicolas.cleton@yaka-performance.com}
       BOOKING_DURATION_MINUTES: ${BOOKING_DURATION_MINUTES:-30}
       BOOKING_PREVIEW_SLOTS: ${BOOKING_PREVIEW_SLOTS:-false}
